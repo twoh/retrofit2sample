@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 /**
  * Created by Hafizh Herdi on 5/15/2016.
  */
-public interface RetrofitAPIEndpointInterface {
+public interface UserAPIService {
 
     @GET("api")
     Call<Result> getResultInfo();
