@@ -2,6 +2,7 @@ package id.web.twoh.retrofitsample.api;
 
 import java.util.HashMap;
 
+import id.web.twoh.retrofitsample.model.Map;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.FieldMap;
@@ -18,6 +19,9 @@ public interface TWOHAPIService {
 
     @GET("storyofme")
     Call<ResponseBody> getStoryOfMe(@QueryMap HashMap<String, String> params);
+
+    @GET("storyofme")
+    Call<Map> getStoryOfMeXML(@QueryMap HashMap<String, String> params);
 
     @FormUrlEncoded
     @POST("post_message")

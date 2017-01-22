@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="50dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -70,11 +71,19 @@
             android:layout_margin="10dp"
             android:text="HTTP GET with Query" />
 
+        <Button
+            android:id="@+id/bt_getasxml"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bt_httpget"
+            android:layout_margin="10dp"
+            android:text="Get as XML" />
+
         <LinearLayout
             android:id="@+id/ll_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/bt_httpget"
+            android:layout_below="@id/bt_getasxml"
             android:orientation="vertical">
 
             <EditText

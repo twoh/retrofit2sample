@@ -26,6 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Button btGetAsModel = (Button) findViewById(R.id.bt_getasmodel);
         Button btGetAsJSON = (Button) findViewById(R.id.bt_getasjson);
+        Button btGetAsXML = (Button) findViewById(R.id.bt_getasxml);
         Button btGetQuery = (Button) findViewById(R.id.bt_httpget);
         Button btPostForm = (Button) findViewById(R.id.bt_httppost);
 
@@ -92,6 +94,19 @@ public class MainActivity extends AppCompatActivity {
                 postMessage(params);
             }
         });
+
+        btGetAsXML.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.show();
+                HashMap<String, String> params = new HashMap<>();
+                params.put("firstname", etFirstName.getText().toString());
+                params.put("lastname", etLastName.getText().toString());
+                params.put("datatype", "xml");
+                queryXML(params);
+            }
+        });
+
         setSupportActionBar(toolbar);
     }
 
@@ -110,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
         twohRetro = new Retrofit.Builder()
                 .baseUrl(Const.BASE_URL)
                 .client(client)
+                .addConverterFactory(SimpleXmlConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
@@ -179,6 +195,31 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                dialog.dismiss();
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void queryXML(HashMap<String, String> params){
+        TWOHAPIService apiService = twohRetro.create(TWOHAPIService.class);
+        Call<id.web.twoh.retrofitsample.model.Map> result = apiService.getStoryOfMeXML(params);
+        result.enqueue(new Callback<id.web.twoh.retrofitsample.model.Map>() {
+            @Override
+            public void onResponse(Call<id.web.twoh.retrofitsample.model.Map> call, Response<id.web.twoh.retrofitsample.model.Map> response) {
+                dialog.dismiss();
+                try {
+                    if(response.body()!=null)
+                        Toast.makeText(MainActivity.this," response message "+response.body().getMessage(),Toast.LENGTH_LONG).show();
+                    if(response.errorBody()!=null)
+                        Toast.makeText(MainActivity.this," response message "+response.errorBody().string(),Toast.LENGTH_LONG).show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<id.web.twoh.retrofitsample.model.Map> call, Throwable t) {
                 dialog.dismiss();
                 t.printStackTrace();
             }
